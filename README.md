@@ -114,7 +114,7 @@ false positives. A scan, including one with no detections, is not a safety
 guarantee or proof of publisher trust. Results may change; check the report.
 
 Treat those warnings as real. If you have not read the source and do not
-trust this account, use Option 1 instead of overriding them.
+trust this account, use Option 1 instead of overriding them..
 
 ### Running it
 
