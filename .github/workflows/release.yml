@@ -1,5 +1,7 @@
 # Build the standalone exe from source on every push, and publish it as a
-# GitHub release (with its SHA-256) when a v* tag is pushed.
+# GitHub release (with its SHA-256) when a v* tag is pushed. A tag pushed in
+# the same `git push` as its branch may not trigger a run; then start it by
+# hand on the tag: `gh workflow run release.yml --ref v1.2.3`.
 name: release
 
 on:
@@ -7,6 +9,7 @@ on:
     branches: [main]
     tags: ["v*"]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write
