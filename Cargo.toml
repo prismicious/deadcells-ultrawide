@@ -1,0 +1,14 @@
+[package]
+name = "deadcells-ultrawide"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.88"
+description = "Dead Cells ultrawide launcher: start the game and widen its view so it fills the screen"
+license = "MIT"
+publish = false
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true

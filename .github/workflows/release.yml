@@ -1,0 +1,44 @@
+# Build the standalone exe from source on every push, and publish it as a
+# GitHub release (with its SHA-256) when a v* tag is pushed.
+name: release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal
+      - run: cargo test --release --locked
+      - run: cargo build --release --locked
+      - name: Checksum
+        shell: pwsh
+        run: |
+          $exe = "target/release/deadcells-ultrawide.exe"
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+          "$hash  deadcells-ultrawide.exe" | Set-Content -NoNewline target/release/deadcells-ultrawide.exe.sha256
+          Get-Content target/release/deadcells-ultrawide.exe.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deadcells-ultrawide
+          path: |
+            target/release/deadcells-ultrawide.exe
+            target/release/deadcells-ultrawide.exe.sha256
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "${{ github.ref_name }}"
+          target/release/deadcells-ultrawide.exe
+          target/release/deadcells-ultrawide.exe.sha256
+          --title "${{ github.ref_name }}" --generate-notes
