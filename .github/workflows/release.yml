@@ -45,3 +45,4 @@ jobs:
           target/release/deadcells-ultrawide.exe
           target/release/deadcells-ultrawide.exe.sha256
           --title "${{ github.ref_name }}" --generate-notes
+          --notes "The recommended way to use this fix is to read the source and build it yourself; see the README. The exe here is an unsigned convenience build: the SHA-256 proves the download is intact, and run ${{ github.run_id }} shows it was built from commit ${{ github.sha }}, but neither is a verified publisher."

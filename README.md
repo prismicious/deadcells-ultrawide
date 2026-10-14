@@ -52,11 +52,62 @@ an unsupported game version just runs stock.
 
 ## Use
 
-Download `deadcells-ultrawide.exe` from the
-[latest release](https://github.com/prismicious/deadcells-ultrawide/releases/latest).
+The launcher writes into another program's memory, so only run it if you
+trust it. The safest way is to read the source and build the exe yourself.
+That takes a few minutes, and the only thing you take from this project is
+source code you can read.
+
+### Option 1: build it yourself (recommended)
+
+You need:
+
+- **Rust 1.88 or newer**, installed with [rustup](https://rustup.rs) using
+  the default `x86_64-pc-windows-msvc` toolchain.
+- **Microsoft C++ Build Tools** (the MSVC linker and Windows SDK). Get them
+  from [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+  and pick the **"Desktop development with C++"** workload. `rustup-init`
+  offers to install this for you if it is missing.
+
+Then download the source (`git clone`, or "Code" → "Download ZIP"), read it,
+and build:
+
+```
+git clone https://github.com/prismicious/deadcells-ultrawide
+cd deadcells-ultrawide
+cargo test --release
+cargo build --release
+```
+
+The exe lands in `target\release\deadcells-ultrawide.exe`. The build
+downloads nothing else: the project has no third-party crates.
+
+All the code is in `src/` and is short: `game.rs` finds and patches the
+value, `win32.rs` holds the Windows API calls, and `main.rs` starts the game.
+
+### Option 2: download the prebuilt exe
+
+Each [release](https://github.com/prismicious/deadcells-ultrawide/releases)
+also has a prebuilt `deadcells-ultrawide.exe`. Be clear about what you can and
+cannot check:
+
+- **The SHA-256 checksum** next to it proves the file you downloaded is the
+  file that was published. It does not prove the file is safe.
+- **The GitHub Actions log** linked from the release shows the exe was built
+  by `.github/workflows/release.yml` from a specific commit in this
+  repository, and that the tests passed. That ties the binary to the public
+  source, but you still have to trust that source and this account.
+- **The exe is not code-signed.** There is no verified publisher behind it.
+  Windows SmartScreen may warn about it, and some antivirus tools flag any
+  program that writes into another process's memory.
+
+Treat those warnings as real. If you have not read the source and do not
+trust this account, use Option 1 instead of overriding them.
+
+### Running it
+
 It is one standalone file with nothing to install: no Python, no .NET, no
-runtime. Put it anywhere and double-click it. It starts Dead Cells through
-Steam and widens it to fit your primary monitor.
+runtime. It starts Dead Cells through Steam and widens it to fit your primary
+monitor.
 
 ```
 deadcells-ultrawide.exe                # launch via Steam, fit the primary monitor
@@ -68,12 +119,6 @@ deadcells-ultrawide.exe --help
 It opens no window of its own. Messages go to `deadcells-ultrawide.log` next
 to the exe, or to the terminal when you start it from one.
 
-The exe is not code-signed, so Windows SmartScreen may warn the first time
-("More info" → "Run anyway"). Some antivirus tools also flag programs that
-write into another process's memory. The source is all in `src/`, and every
-release is built from it by the GitHub Actions workflow in
-`.github/workflows/release.yml`, with its SHA-256 published next to it.
-
 ### Run it from Steam's Play button (optional)
 
 In Steam, open Dead Cells → Properties → Launch Options and enter:
@@ -84,17 +129,6 @@ In Steam, open Dead Cells → Properties → Launch Options and enter:
 
 Steam then starts the game through the launcher every time. If the fix cannot
 be applied, the game still starts and runs stock.
-
-### Build it yourself
-
-Install [Rust](https://rustup.rs) (the MSVC toolchain), then:
-
-```
-cargo build --release
-```
-
-The exe lands in `target\release\deadcells-ultrawide.exe`. There are no
-dependencies to download; `cargo test` runs the checks.
 
 ## Undo
 
