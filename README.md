@@ -100,6 +100,19 @@ cannot check:
   Windows SmartScreen may warn about it, and some antivirus tools flag any
   program that writes into another process's memory.
 
+**VirusTotal report for v1.0.0:**
+[View the executable's file report](https://www.virustotal.com/gui/file/b26c21cb58d1ed235d392c9f9bb96c210f3a363a34d429abf8f9950974482682).
+It covers only the published `deadcells-ultrawide.exe` with SHA-256
+`b26c21cb58d1ed235d392c9f9bb96c210f3a363a34d429abf8f9950974482682`,
+not future releases or your own builds. The scan dated **2026-10-14 14:11 UTC**
+reported **3 detections out of 71 engines**: SecureAge (API name APEX,
+`Malicious`), McAfee Scanner (API name McAfeeD, `ti!B26C21CB58D1`), and
+DeepInstinct (`MALICIOUS`). The other 68 reported
+undetected; four additional engines did not support this file type.
+This is **not a clean scan**. These detections have not been established as
+false positives. A scan, including one with no detections, is not a safety
+guarantee or proof of publisher trust. Results may change; check the report.
+
 Treat those warnings as real. If you have not read the source and do not
 trust this account, use Option 1 instead of overriding them.
 
